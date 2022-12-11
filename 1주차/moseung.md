@@ -527,6 +527,8 @@ couter(); // 2
 couter(); // 3
 
 ```
+![image](https://user-images.githubusercontent.com/103626175/206880814-98cc6d92-c07d-4a63-8fa1-9e3befd78d42.png)
+
 
 
 
