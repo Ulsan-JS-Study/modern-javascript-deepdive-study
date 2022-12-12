@@ -187,14 +187,15 @@ console.log(circle1.getArea === circle2.getArea); // true
 ```javascript
 // key in object
 const person = {
-  name: "hyeonsu",
-  address: "daejeon",
+  name: "seungmo",
+  address: "ulsan",
 };
 
 console.log("name" in person); // true
 
 console.log("age" in person); // false
 ```
+++ 객체의 key값은 무조건 string이다
 
 ## 19.14 프로퍼티 열거
 
@@ -619,7 +620,16 @@ console.log(x); // 2️⃣
 var 키워드로 선언된 변수는 오로지 함수의 코드 블록(함수 몸체) 만을 지역 스코프로 인정하는데, 이러한 특성을 함수 레벨 스코프라 함
 
 if, for 문에서 선언된 var 키워드는 전역 변수임
+```js run
+var a= 2;
 
+if(a===2){
+  var a = 4;
+  console.log(a) //4
+}
+
+console.log(a)// 2가아니라 4다 var의 코드블록은 함수만 지역스코프로 인정하기 떄문
+```
 
 
 ## 13.5 렉시컬 스코프
