@@ -82,8 +82,58 @@ this = 생성자 함수가 생성할 인스턴스가 바인딩
 (this로 사용할 객체, 함수에게 전달할 인수1,2,3 ...)
 
 두 함수의 본질적인 기능은 함수를 호출
+```js run
+function Prod(name, price){
+    this.name = name;
+    this.price = price;
+ 
+}
+ 
+function Food(name, price) {
+    debugger;
+    Prod.call(this, name, price);
+    this.category = 'food';
+}
+ 
+function Cloth(name, price) {
+    Prod.call(this, name, price);
+    this.category = 'cloth';
+}
+ 
+var cheese = new Food('cream', 30);
+var shirt = new Cloth('robot', 40);
+ 
+console.log(cheese.name);
+console.log(shirt.name);
+```
+위처럼 재사용을 위해 사용한다.
 
 #### bind
 두 함수와 달리 함수를 호출하지 않고, this 바인딩이 교체된 함수를 새롭게 반환
 
-메서드의 this와 메서드 내부의 중첩함수 또는 콜백 함수의 This가 불일치하는 문제를 해결하기 위해 사용
+메서드의 this와 메서드 내부의 중첩함수 또는 콜백 함수의 This가 불일치하는 문제를 해결하기 위해 사용<br>
+예를들어 한 클래스내에 종속된 다른클래스에 같은 이름의 필드또는 method가 있을때 바인딩시키면 class호출 당시 this를 기억해서 호출한다.
+```js run
+class Hihi{
+  good(){
+    console.log("real good")
+    this.good().bind(this)
+  }
+}
+
+class Bibi{
+  constructor(){
+    this.hihi = new Hihi();
+  }
+  
+  good(){
+    this.hihi.good()
+    console.log("fakegood")
+  }
+}
+
+const bibi = new Bibi();
+
+bibi.good()
+```
+위처럼 작성하면 bind를 안해줬을떄는 fakegood 해줬을때는 real good이 출력된다.
