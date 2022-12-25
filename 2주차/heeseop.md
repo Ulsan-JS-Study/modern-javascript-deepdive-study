@@ -117,6 +117,178 @@ const univ2 = new Universe('Neptune');
 
 console.log(univ1.getPlanet());
 // Venus is contained in solar system.
-console.log(univ2.getPlanet());
+console.log(univ2.getPlane st());
 // Neptune is contained in solar system.
+```
+
+## 25.1 클래스는 프로토타입의 문법적 설탕인가?
+
+javascript는 C#과 같은 클래스 기반 객체지향 프로그래밍에 익숙한 프로그래머를 위해 ES6에서 도입한 새로운 객체 생성 메커니즘이다.
+
+## 25.2 클래스 정의
+
+```js
+// 클래스 선언문
+class Person {}
+
+// 익명 클래스 표현식
+class Person = class {};
+
+// 기명 클래스 표현식
+class Person = class MyClass {};
+```
+
+자바스크립트 내에서 클래스는 엄밀히 말하면 함수이다. 값처럼 사용할 수 있는 일급 객체이다.
+
+```js
+class Worldcup {
+  // 생성자
+  constructor(country) {
+    // 인스턴스 생성 및 초기화
+    this.country = country;
+  }
+  
+  champion() {
+    console.log(`the champion is ${this.name}!`);
+  }
+  
+  static goldenball() {
+    console.log("Leonel Messi");
+  }
+}
+
+// 인스턴스 생성
+const worldcup = new Worldcup("Argentina");
+
+// 인스턴스의 프로퍼티 참조
+console.log(worldcup.country); // Argentina
+
+// 인스턴스의 메서드 참조
+worldcup.champion();
+
+// 인스턴스의 정적 메서드 호출
+Worldcup.goldenball();
+```
+
+위의 예시에서 클래스의 프로퍼티, 메서드를 정의하고 new 연산자를 통해 인스턴스를 생성하고 생성된 인스턴스의 프로퍼티, 메서드를 호출해 보았다.
+
+위의 정적 메서드는 일반 메서드와 다르게 인스턴스가 없어도 호출할 수 있는 메서드이다.
+
+> 사실 클래스는 별게 없다. 함수보다 좀더 강력한 프레임을 갖추어 코드의 재상용을 효율적으로 줄여주는 역할을 한다. 또한 프레임에 어긋나는 규격외의 에러도 자동으로 처리해 준다. 하지만 클래스를 제대로 활용하기 위해서는 클래스가 가지는 규칙을 이해할 팰요가 있다.
+
+## 25.2 - 25.7 메서드와 프로퍼티
+
+### 25.5.1 constructor
+
+constructor는 한국말로 번역하면 '토대'이다. 즉, 인스턴스를 생성하고 초기화하기 위한 특수한 메서드이다.(초기값 설정)
+
+```js
+class Person {
+  constructor(name) {
+    // 인스턴스 생성 및 초기화
+    this.name = name;
+  }
+}
+```
+
+> 위의 constructor를 처음봤을땐 이해하기 힘들었다. 그러나 조금만 자세히 살펴보면 아주 간단하다. 먼저 앞서 22장에서 배운 this의 의미를 알아야 한다. this는 자신이 속한 객체의 한단계 상위 객체를 가리킨다. 즉 위의 코드에서 this는 Person을 가리킨다. 이제 코드가 눈에 보일거다. `Person.name = name` 즉, 위의 코드는 인스턴스에서 받은 name을 클래스 내에서 초기값으로 설정하는 로직이다.
+
+위의 constructor를 통해 인스턴스의 프로퍼티와 메서드의 초기값을 할당해줄 수 있다.
+
+## 25.8 상속에 의한 클래스 확장
+
+상속에 의한 클래스 확장은 기존 클래스를 상속받아 새로운 클래스를 확장하여 정의하는 것이다.
+
+```js
+class ToDoList {
+  consturctor(name) {
+    this.name = name;
+  }
+  
+  intro() {
+    console.log(`this is ${this.name}'s to do list`);
+  }
+  
+  studyAboutThis() {
+    return "This";
+  }
+}
+
+// 상속을 통한 클래스 확장
+class studyMore extends toDoList() {
+  studyAboutClass() {
+    return "Class";
+  }
+}
+
+const toDoList = new ToDoList("Jeong");
+```
+
+extend 키워드 앞에 상속할 클래스의 이름을, 그리고 extend 키워드 뒤에 상속 받을 클래스의 이름을 기입하면 위의 예제처럼 클래스끼리 합쳐진다.
+
+이때 클래스는 프로토타입으로 연결되며 마치 하나의 클래스처럼 동작한다.
+
+### 25.8.5 super 키워드
+
+super 키워드는 슈퍼 클래스의 constructor를 똑같이 받아올때 사용한다.
+
+쉽게 말하면 super는 자신을 상속한 클래스의 constructor를 가리킨다.
+
+```js
+class Base {
+  constructor(a, b) {
+    this.a = a;
+    this.b = b;
+  }
+}
+
+class Test extends Base {
+  constructor(a, b, c) {
+    super(a, b);
+    this.c = c;
+  }
+}
+
+const test = new Test(1, 2, 3);
+console.log(test);
+```
+
+위의 예시코드를 보면 a, b의 constructor 값을 super를 통해 그대로 가져온것을 알 수 있다.
+
+## 클래스를 이용한 간단한 toDoList
+
+```js
+const fs = require('fs');
+
+class TodoList { // 클래스 선언
+  constructor() {
+    this.todos = []; // 초기값은 빈 배열 할당
+  }
+
+  addTodo(todo) {
+    this.todos.push(todo); // push 메서드를 통해 데이터 값을 추가
+  }
+
+  removeTodo(todo) {
+    const index = this.todos.findIndex(t => t.text === todo.text); // findIndex 메서드를 이용하여 일치하는 데이터 값을 찾는다.
+    if (index !== -1) {
+      this.todos.splice(index, 1); // 일치하는 데이터값을 제거한다.
+    }
+  }
+}
+
+const todoList = new TodoList(); // 인스턴스 생성
+
+todoList.addTodo({text: 'learn javascript'}); // addTodo메서드를 통해 인스턴스에 데이터를 추가 1.
+todoList.addTodo({text: 'learn nodejs'}); // addTodo메서드를 통해 인스턴스에 데이터를 추가 2.
+todoList.addTodo({text: 'learn react'}); // addTodo메서드를 통해 인스턴스에 데이터를 추가 3
+
+todoList.removeTodo({text: 'learn nodejs'}); // 데이터와 일치하는 값을 제거
+
+fs.writeFile('./data.json', JSON.stringify(todoList.todos), (err) => { // 데이터를 로컬에 저장
+  if (err) throw err;
+  console.log('The file has been saved!');
+});
+
+console.log(todoList.todos);
 ```
