@@ -20,7 +20,7 @@ Output: 7, nums = [0,0,1,1,2,3,3,_,_]
 ### 
 
 ```js
-function removeDuplicates(nums) {
+const removeDuplicates = nums => {
   let count = 0;
   const uniqueElements = new Set();
   nums = nums.filter(num => {
