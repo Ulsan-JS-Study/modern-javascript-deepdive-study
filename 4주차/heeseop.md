@@ -17,6 +17,8 @@ Output: 7, nums = [0,0,1,1,2,3,3,_,_]
 ### 나의 생각
 1.
 
+### 
+
 ```js
 function removeDuplicates(nums) {
   let count = 0;
