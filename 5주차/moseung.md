@@ -71,3 +71,42 @@ DFS로 풀어봤습니다.
         return count;
       };
 ```
+
+# 1145. Binary Tree Coloring Game
+
+
+```js run
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} n
+ * @param {number} x
+ * @return {boolean}
+ */
+const btreeGameWinningMove = (root,n,x)=> {
+        let first = 0;
+        let second = 0;
+        let left = true;
+        let right = true;
+        function DFS(v) {
+          if (v > n) return;
+          else {
+            if (left === true && v > 3) first++;
+            if (right === true && v > 3) second++;
+            DFS(v * 2);
+            if (v === 2) left = false;
+            DFS(v * 2 + 1);
+            if (v === 3) right = false;
+          }
+        }
+        DFS(1);
+        return first !== second;
+      }
+```
