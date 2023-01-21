@@ -88,3 +88,43 @@ var numIslands = function(grid) {
     return count
 };
 ```
+
+# 1145 Binary Tree Coloring Game
+
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }   
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} n
+ * @param {number} x
+ * @return {boolean}
+ */
+var btreeGameWinningMove = function(root, n, x) {
+    let left, right; 
+    const red = x
+    const dfs = (node) => {
+        if(!node) return 0 
+        
+        const l = dfs(node.left)
+        const r = dfs(node.right)
+        
+        // red 하위 트리 개수 
+        if(node.val === red){
+            left = l
+            right = r
+        }
+        
+        return l + r + 1 
+    }
+    dfs(root)
+    // 이진트리라서 절반을 비교한다.
+    return Math.max(Math.max(left,right), n-left-right-1) > n/2
+};
+```
