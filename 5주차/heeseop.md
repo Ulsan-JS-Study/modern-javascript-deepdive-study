@@ -132,22 +132,5 @@ function dfs(grid, i, j) {
 ### 문제풀이
 
 ```js
-function secondPlayerWins(root, n, x) {
-    let xNode = findNode(root, x);
-    let size = getSize(xNode);
-    return size % 2 === 0;
-}
 
-function findNode(root, x) {
-    if (!root) return null;
-    if (root.val === x) return root;
-    let left = findNode(root.left, x);
-    let right = findNode(root.right, x);
-    return left || right;
-}
-
-function getSize(node) {
-    if (!node) return 0;
-    return 1 + getSize(node.left) + getSize(node.right);
-}
 ```
