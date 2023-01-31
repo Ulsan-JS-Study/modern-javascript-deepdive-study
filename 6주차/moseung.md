@@ -74,17 +74,6 @@
         }
         return output;
       };
-      console.log(
-        findAllRecipes(
-          ["bread", "sandwich"],
-          [
-            ["yeast", "flour"],
-            ["bread", "meat"],
-          ],
-          ["yeast", "flour", "meat"]
-        )
-      );
-      const a = [1, 2, 3, 4, 5];
 ```
 
 # 208 Implement Trie 
