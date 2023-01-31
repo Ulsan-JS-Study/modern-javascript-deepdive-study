@@ -127,3 +127,43 @@ class Trie {
   }
 }
 ```
+
+## 2115번 문제
+
+```js
+const canCreateRecipes = (recipes, ingredients, supplies) => {
+  const graph = new Map();
+  for (let i = 0; i < ingredients.length; i++) {
+    for (const ingr of ingredients[i]) {
+      if (!graph.has(recipes[i])) {
+        graph.set(recipes[i], []);
+      }
+      graph.get(recipes[i]).push(ingr);
+    }
+  }
+
+  const result = [];
+  const visited = new Set();
+
+  const dfs = (recipe) => {
+    if (visited.has(recipe)) return;
+    visited.add(recipe);
+    if (graph.has(recipe)) {
+      for (const ingr of graph.get(recipe)) {
+        if (!supplies.includes(ingr)) {
+          dfs(ingr);
+        }
+      }
+    }
+    result.unshift(recipe);
+  };
+
+  for (const recipe of recipes) {
+    if (!visited.has(recipe)) {
+      dfs(recipe);
+    }
+  }
+
+  return result;
+};
+```
