@@ -114,6 +114,7 @@ class Trie {
       return node.isEnd;
   }
   
+  // 시작단어를 앞의 단어와 비교하여 같을시 트리거를 true, 다를시 false로 반환한다.
   startsWith(prefix) {
       let node = this.root;
       for (let i = 0; i < prefix.length; i++) {
