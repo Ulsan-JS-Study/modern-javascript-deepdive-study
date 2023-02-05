@@ -80,6 +80,7 @@ var maxSumDivThree = function (nums) {
         // dp[0] = %3 === 0
         // dp[1] = %3 === 1
         // dp[2] = %3 === 2
+        3, 6, 5, 1, 8
         let dp = new Array(3).fill(0);
         for (let num of nums) {
           for (let i of dp.slice(0)) {
