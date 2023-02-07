@@ -22,3 +22,48 @@ var shuffle = function(nums, n) {
     return answer 
 };
 ```
+
+# 2/7 (화)
+## 904. Fruit Into Baskets (MEDIUM)
+2개의 바구니에 과일을 최대 몇 개 담을 수 있는지 확인하는 문제.
+이때 각 바구니에는 한 가지 타입의 과일을 담을 수 있으며
+각 과일의 타입은 fruits[i]이다.
+ex) [1,2,3,4,1]의 fruits가 있다면 여기서 타입의 개수는 4개입니다. 
+
+### 의사 코드
+1. 과일의 타입과 개수를 기록할 basket, window의 시작과 끝을 나타내는 left, right, 최댓값 max를 초기화해 줍니다.
+2. fruits.length까지 fruits 배열을 순회한다.
+   1. basket에 과일의 타입과 개수를 할당해 준다.
+   2. basket의 사이즈가 2보다 큰 경우 즉 과일 타입의 개수가 2개 이상인 경우 while문을 통해 하나가 될 때까지 왼쪽(sliding window의 시작 부분)에서 지워준다.
+   3. max 업데이트
+3. return max
+
+```
+/**
+ * @param {number[]} fruits
+ * @return {number}
+ */
+var totalFruit = function(fruits) {
+    const basket = new Map()
+    let left = 0, right;
+    let max = 0 
+    
+    for(right=0; right < fruits.length; right++){
+        basket.set(fruits[right], (basket.get(fruits[right])||0)+1)
+        
+        // type이 2개 이상이면 2개가 될때까지 지워준다.
+        while(basket.size > 2){
+            basket.set(fruits[left], basket.get(fruits[left]) - 1)
+            
+            if(basket.get(fruits[left]) === 0){
+                basket.delete(fruits[left])
+            }
+            left++
+        }
+        
+        max = Math.max(max, right - left + 1)
+    }
+    
+    return max
+};
+```
