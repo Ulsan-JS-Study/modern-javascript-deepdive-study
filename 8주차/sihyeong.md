@@ -67,3 +67,33 @@ var totalFruit = function(fruits) {
     return max
 };
 ```
+
+# 2/8 (수)
+## 45. Jump Game II (MEDIUM)
+nums[n-1] 에 도달하는데 필요한 최소 점프 횟수를 구하는 문제.
+nums[i]는 최대 점프 거리를 나타내며, 테스트케이스에서 반드시 nums[n-1]에 도달할 수 있는 케이스를 준다.
+
+```
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var jump = function(nums) {
+    // @@@무조건 nums[n-1] 에 도달하도록 테스트 케이스가 주어진다. 
+    let ans = 0 
+    let end = 0 
+    let far = 0
+    
+    for(let i=0; i<nums.length-1; i++){
+        far = Math.max(far, nums[i] + i) // 현재 자기위치에서 갈수 있는 최대 거리
+        
+        // 현재 위치가 end이면 점프 횟수 추가 
+        if(i === end){ 
+            ans++
+            end = far
+        }
+    }
+    
+    return ans
+};
+```
