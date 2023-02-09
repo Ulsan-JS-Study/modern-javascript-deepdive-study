@@ -97,3 +97,69 @@ var jump = function(nums) {
     return ans
 };
 ```
+
+# 2/8 (목)
+## 2306. Naming a Company (HARD)
+ideas에서 두 개의 idea를 선택한 후, 각각의 idea의 앞글자를 스왑 했을 때
+기존 ideas에 없으면 카운트하는 문제.
+
+### 문제 접근법
+ideas = ["coffee", "donuts", "time", "toffee"]가 있을 때
+
+각 idea의 첫 번째 문자를 스왑 한 결과가 중복되지 않으려면 suffix가 중복되지 않아야 합니다.
+그래서 아래와 같이 idea의 첫 번째 글자를 기준으로 suffix를 그룹화 합니다.
+
+c : [ "offee" ]
+
+d : [ "onuts" ]
+
+t : [ "ime", "offee"] 
+
+그리고 키값을 순회 하면서 비교를 해주는데 이때 중복된 suffix가 있는지 체크하고 카운트해 줍니다.
+
+```
+/**
+ * @param {string[]} ideas
+ * @return {number}
+ */
+ 
+ // ["coffee","donuts","time","toffee"]
+var distinctNames = function(ideas) {
+    const map = new Map()
+    
+    // c : offee
+    // t : offee, ime
+    // d : onuts
+    for(const idea of ideas) {
+        const prefix = idea[0]
+        const suffix = idea.slice(1)
+        
+        if(!map.has(prefix)) map.set(prefix, new Set())
+        map.get(prefix).add(suffix)
+    }
+    
+    const keys = [...map.keys()]
+    let count = 0 
+    
+    
+    for(let i=0; i<keys.length; i++){
+        const frist = map.get(keys[i])
+        
+        for(let j=i+1; j<keys.length; j++){
+            const second = map.get(keys[j])
+            let sameCount = 0
+            
+            for(const suffix of frist){
+                // c : offee, t:offee 중복은 스왑을해도 사용불가능함
+                if(second.has(suffix)) sameCount++
+            }
+            
+            // 2를 곱하는 이유 ("coffee","donuts"), ("donuts","coffee")
+            count += 2 * (frist.size - sameCount) * (second.size - sameCount)
+        }
+    }
+   
+    return count
+};
+```
+
