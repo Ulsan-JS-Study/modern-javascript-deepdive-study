@@ -98,7 +98,7 @@ var jump = function(nums) {
 };
 ```
 
-# 2/8 (목)
+# 2/9 (목)
 ## 2306. Naming a Company (HARD)
 ideas에서 두 개의 idea를 선택한 후, 각각의 idea의 앞글자를 스왑 했을 때
 기존 ideas에 없으면 카운트하는 문제.
@@ -163,3 +163,69 @@ var distinctNames = function(ideas) {
 };
 ```
 
+# 2/10 (금)
+## 1162. As Far from Land as Possible (MEDINUM)
+grid[i] === 0 // 물
+grid[i] === 1 // 땅
+
+물과 가장 멀리 떨어진 땅의 거리 찾는 문제
+
+### 문제 접근법
+동시에 탐색해야하기 때문에 BFS 사용하여 풀이
+모든 땅에서 동시에 탐색을 진행하면서 최대 거리를 찾는다.
+manhattan distance 사용 x 
+
+### 의사 코드
+1. 변수 queue에 배열을 초기화하고 grid를 순회하면서 땅의 좌표와 거리 0을 푸시해준다.
+2. maxDistance를 나타내는 변수를 선언하고 -1로 초기화해준다.
+3. BFS 탐색
+    1. maxDistance 업데이트
+    2. 4가지 방향으로 탐색을하며 grid가 유효한지 체크한다
+        1. 이동한 좌표가 유효하다면 grid에서 해당 위치를 땅으로 변경하고 queue에 푸시해준다.
+4. maxDistance를 리턴한다. 이때 maxDistance가 0이라면 육지 또는 물이 없다고 판단하여 -1을 리턴해준다.
+
+```
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var maxDistance = function(grid) {
+    const m = grid.length, n = grid[0].length
+    const directions = [[-1,0],[0,1],[1,0],[0,-1]]
+    
+    const gridIsValid = (x,y) => {
+        return x >= 0 && x < m && y >= 0 && y < n && grid[x][y] === 0
+    }
+    
+    let queue = [] 
+    
+    // 땅의 위치를 찾아서 queue에 push
+    for(let row=0; row<m; row++){
+        for(let col=0; col<n; col++){
+            if(grid[row][col] === 1) {
+                queue.push([row,col,0])
+            }
+        }
+    }
+    
+    let maxDistance = -1
+    
+    while(queue.length){
+        const nextQueue = []
+        for(const [x,y,distance] of queue){
+            maxDistance = Math.max(maxDistance, distance)
+            for(const [dx,dy] of directions){
+                const nx = x + dx, ny = y + dy
+
+                if(gridIsValid(nx,ny)){
+                    grid[nx][ny] = 1
+                    nextQueue.push([nx,ny,distance+1])
+                }
+            }
+        }
+        queue = nextQueue
+    }
+    
+    return maxDistance === 0 ? -1 : maxDistance
+};
+```
