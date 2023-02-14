@@ -68,7 +68,7 @@ d : [ "onuts" ]
 
 t : [ "ime", "offee"] 
 
-그리고 키값을 순회 하면서 비교를 해주는데 이때 중복된 suffix가 있는지 체크하고 카운트해 줍니다.
+그리고 키값을 순회 하면서 비교를 해주는데 이때 중복된 count가 있는지 체크하고 카운트해 줍니다.
 
 ```js run
 var distinctNames = function (ideas) {
@@ -105,7 +105,6 @@ grid[i] === 1 // 땅
 ### 문제 접근법
 동시에 탐색해야하기 때문에 BFS 사용하여 풀이
 모든 땅에서 동시에 탐색을 진행하면서 최대 거리를 찾는다.
-manhattan distance 사용 x 
 
 ### 의사 코드
 1. 변수 queue에 배열을 초기화하고 grid를 순회하면서 땅의 좌표와 거리 0을 푸시해준다.
@@ -114,50 +113,39 @@ manhattan distance 사용 x
     1. maxDistance 업데이트
     2. 4가지 방향으로 탐색을하며 grid가 유효한지 체크한다
         1. 이동한 좌표가 유효하다면 grid에서 해당 위치를 땅으로 변경하고 queue에 푸시해준다.
-4. maxDistance를 리턴한다. 이때 maxDistance가 0이라면 육지 또는 물이 없다고 판단하여 -1을 리턴해준다.
+4. maxDis를 리턴한다. 이때 maxDis가 0이라면 육지 또는 물이 없다고 판단하여 -1을 리턴해준다.
 
-```
-/**
- * @param {number[][]} grid
- * @return {number}
- */
-var maxDistance = function(grid) {
-    const m = grid.length, n = grid[0].length
-    const directions = [[-1,0],[0,1],[1,0],[0,-1]]
-    
-    const gridIsValid = (x,y) => {
-        return x >= 0 && x < m && y >= 0 && y < n && grid[x][y] === 0
-    }
-    
-    let queue = [] 
-    
-    // 땅의 위치를 찾아서 queue에 push
-    for(let row=0; row<m; row++){
-        for(let col=0; col<n; col++){
-            if(grid[row][col] === 1) {
-                queue.push([row,col,0])
+```js run
+var maxDistance = function (grid) { 
+    let queue = []
+    let containsZero = false
+    for (let row = 0; row<grid.length; row++) {
+        for (let column = 0; column<grid[0].length; column++) {
+            if (grid[row][column] === 1) {
+                queue.push([row,column,0])
+            } else {
+                containsZero = true
             }
         }
     }
-    
-    let maxDistance = -1
-    
-    while(queue.length){
-        const nextQueue = []
-        for(const [x,y,distance] of queue){
-            maxDistance = Math.max(maxDistance, distance)
-            for(const [dx,dy] of directions){
-                const nx = x + dx, ny = y + dy
-
-                if(gridIsValid(nx,ny)){
-                    grid[nx][ny] = 1
-                    nextQueue.push([nx,ny,distance+1])
-                }
-            }
-        }
-        queue = nextQueue
+    if (queue.length === 0 || !containsZero) {
+        return -1
     }
     
-    return maxDistance === 0 ? -1 : maxDistance
-};
+    let maxDis  = -1
+    let direction = [[0,1], [0,-1], [1,0], [-1,0]]
+    while (queue.length > 0) {
+        let cell = queue.shift()
+        maxDis = Math.max(maxDis, cell[2])
+        for (let i = 0; i<direction.length; i++) {
+            let x = direction[i][0] + cell[0]
+            let y = direction[i][1] + cell[1]
+            if (x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] === 0) {
+                queue.push([x, y, cell[2] + 1]);
+                grid[x][y] = 1;
+            }
+        }
+    }
+    return maxDis
+}
 ```
