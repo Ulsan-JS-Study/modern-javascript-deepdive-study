@@ -108,8 +108,9 @@ var countOdds = function(low, high) {
 트리의 깊이 구하는 문제 (가장 깊은)
 
 ### 문제 접근법
-왼쪽부터 탐색하며 하위 노드가 없을 때 0을 리턴 
-자식 노드를 모두 탐색하고 둘중 튼 값 + 1 을 리턴 
+왼쪽부터 탐색하며 하위 노드가 없을 때 0을 리턴
+
+자식 노드를 모두 탐색하고 둘중 큰 값 + 1 을 리턴 
 
 ![image](https://user-images.githubusercontent.com/59095793/219292142-fd90679c-773c-4e6b-81af-ff73e47d302f.png)
 
