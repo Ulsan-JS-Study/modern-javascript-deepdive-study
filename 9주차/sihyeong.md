@@ -101,3 +101,34 @@ var countOdds = function(low, high) {
     return (BigInt(num.join('')) + BigInt(k)).toString().split('')
 };
 ```
+
+# 2/16(목) 
+## 104. Maximum Depth of Binary Tree (EASY)
+
+트리의 깊이 구하는 문제 (가장 깊은)
+
+### 문제 접근법
+왼쪽부터 탐색하며 하위 노드가 없을 때 0을 리턴 
+자식 노드를 모두 탐색하고 둘중 튼 값 + 1 을 리턴 
+
+![image](https://user-images.githubusercontent.com/59095793/219292142-fd90679c-773c-4e6b-81af-ff73e47d302f.png)
+
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function(root) {
+    if(!root) return 0
+
+    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
+};
+```
