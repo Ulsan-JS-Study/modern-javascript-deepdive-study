@@ -193,3 +193,132 @@ function traverseInOrder(root, values = []) {
       
 ```
 
+
+## 240. Search a 2D Matrix II
+2D판에서 주어진값이 있다면 true 없으면 false
+```js run
+ /**
+       * @param {number[][]} matrix
+       * @param {number} target
+       * @return {boolean}
+       */
+      var searchMatrix = function (matrix, target) {
+        let output = false;
+        const defaultX = Math.floor(matrix[0].length / 2);
+        const defaultY = Math.floor(matrix.length / 2);
+        let x = defaultX;
+        let y = defaultY;
+        while (!output) {
+          console.log(x, y);
+          if (matrix[y][x] > target && y > defaultY) {
+            y = defaultY;
+            x -= 1;
+          } else if (matrix[y][x] < target && y < defaultY) {
+            y = defaultY;
+            x += 1;
+          }
+          if (matrix[y][x] === target) {
+            output = true;
+            break;
+          } else if (matrix[y][x] > target) {
+            if (y - 1 >= 0) {
+              y -= 1;
+              continue;
+            }
+            if (x === 0 || x === matrix[0].length - 1) {
+              break;
+            }
+            y = defaultY;
+            x -= 1;
+          } else if (matrix[y][x] < target) {
+            if (y + 1 <= matrix.length - 1) {
+              y += 1;
+              continue;
+            }
+            if (x === 0 || x === matrix[0].length - 1) {
+              break;
+            }
+            y = defaultY;
+            x += 1;
+          }
+        }
+        // if ((x === 0 && y === 0) || (x === matrix[0].length - 1 && y === 0)) {
+        //     break;
+        //   }
+        //   if (
+        //     (x === 0 && y === matrix.length - 1) ||
+        //     (x === matrix[0].length - 1 && y === matrix.length - 1)
+        //   ) {
+        //     break;
+        //   }
+
+        return output;
+      };
+      // console.log(
+      //   searchMatrix(
+      //     [
+      //       [1, 4, 7, 11, 15],
+      //       [2, 5, 8, 12, 19],
+      //       [3, 6, 9, 16, 22],
+      //       [10, 13, 14, 17, 24],
+      //       [18, 21, 23, 26, 30],
+      //     ],
+      //     20
+      //   )
+      // );
+
+      var ddd = function (matrix, target) {
+        if (!matrix || !matrix.length) return false;
+
+        const rows = matrix.length;
+        const cols = matrix[0].length;
+
+        function hasTarget(startRow, endRow, startCol, endCol) {
+          if (startRow > endRow || startCol > endCol) return false;
+
+          const middleRow = Math.floor((endRow - startRow) / 2) + startRow;
+          const middleCol = Math.floor((endCol - startCol) / 2) + startCol;
+          console.log(matrix[middleRow][middleCol]);
+
+          if (matrix[middleRow][middleCol] === target) return true;
+
+          if (matrix[middleRow][middleCol] < target) {
+            return (
+              hasTarget(middleRow + 1, endRow, startCol, endCol) ||
+              hasTarget(startRow, middleRow, middleCol + 1, endCol)
+            );
+          } else {
+            return (
+              hasTarget(startRow, endRow, startCol, middleCol - 1) ||
+              hasTarget(startRow, middleRow - 1, middleCol, endCol)
+            );
+          }
+        }
+
+        return hasTarget(0, rows - 1, 0, cols - 1);
+      };
+
+      var searchMatrix = function (matrix, target) {
+        let cols = 0,
+          rows = matrix.length - 1;
+
+        while (cols <= matrix[0].length - 1 && rows >= 0) {
+          if (matrix[rows][cols] === target) return true;
+          else if (matrix[rows][cols] > target) rows--;
+          else if (matrix[rows][cols] < target) cols++;
+        }
+        return false;
+      };
+      console.log(
+        ddd(
+          [
+            [1, 4, 7, 11, 15],
+            [2, 5, 8, 12, 19],
+            [3, 6, 9, 16, 22],
+            [10, 13, 14, 17, 24],
+            [18, 21, 23, 26, 30],
+          ],
+          20
+        )
+      );
+```
