@@ -145,3 +145,51 @@ var maxDepth = function (root) {
       };
       
 ```
+
+# 2/17(금) 
+## 783. Minimum Distance Between BST Nodes
+
+트리 노드의 최소차를 구하는 문제 (가장 깊은)
+
+### 문제 접근법
+왼쪽부터 탐색하며 값들을 value배열에 push
+
+value배열을 for문으로 탐색하며 값의 차를 구하고 min을 return
+
+```js run
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDiffInBST = function(root) {
+    const values = traverseInOrder(root);
+    console.log(values)
+  let minDiff = Infinity;
+
+  for (let i = 1; i < values.length; i++) {
+    minDiff = Math.min(values[i] - values[i - 1], minDiff);
+  }
+
+  return minDiff;
+};
+
+function traverseInOrder(root, values = []) {
+  if (!root) return values;
+
+  traverseInOrder(root.left, values);
+  values.push(root.val);
+  traverseInOrder(root.right, values);
+
+  return values;
+};
+      
+```
+
